@@ -1,12 +1,13 @@
 import { Box, Button } from "grommet";
-import { Article } from "grommet-icons";
+import { Article, Refresh } from "grommet-icons";
 import { useRouter } from "next/router";
 import React, { BaseSyntheticEvent, useCallback } from "react";
 
 interface ToolbarProps {
+    refresh: () => void
 }
 
-const Toolbar = () => {
+const Toolbar = ({ refresh }: ToolbarProps) => {
 
     const router = useRouter()
 
@@ -15,6 +16,10 @@ const Toolbar = () => {
         router.push("/write")
     }, [router])
 
+    const onRefreshClick = useCallback((e: BaseSyntheticEvent) => {
+        e.preventDefault()
+        refresh()
+    }, [])
 
     return (
         <Box direction="row" pad="medium">
@@ -22,6 +27,10 @@ const Toolbar = () => {
                 label="Write"
                 icon={<Article />}
                 onClick={onWriteClick}
+            />
+            <Button
+                icon={<Refresh />}
+                onClick={onRefreshClick}
             />
         </Box>
     )
