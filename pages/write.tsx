@@ -130,7 +130,7 @@ const Write: NextPage = () => {
         setRelayerSigner(response.signer)
         setCurrentAggregate(response.current_aggregate)
 
-    }, [text, address, isConnected])
+    }, [text, isConnected, headReads, signer])
 
     return (
         <Page>

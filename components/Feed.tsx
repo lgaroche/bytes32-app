@@ -26,7 +26,7 @@ const Feed = () => {
 
   const doRefresh = useCallback(() => {
     setRefresh(r => !r)
-  }, [refresh])
+  }, [])
 
   return (
     <>

@@ -19,7 +19,7 @@ const Toolbar = ({ refresh }: ToolbarProps) => {
     const onRefreshClick = useCallback((e: BaseSyntheticEvent) => {
         e.preventDefault()
         refresh()
-    }, [])
+    }, [refresh])
 
     return (
         <Box direction="row" pad="medium">

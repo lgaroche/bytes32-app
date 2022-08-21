@@ -1,4 +1,3 @@
-import { Signer } from 'ethers'
 import { verifyTypedData } from 'ethers/lib/utils'
 import { CID } from 'multiformats'
 
@@ -69,7 +68,8 @@ class SignableEntry implements PartialEntry {
         return { domain, types, value: this }
     }
 
-    public async sign(signer: Signer): Promise<SignedEntry> {
+    // TODO: better typing when ethers has a stable signTypedData API
+    public async sign(signer: any): Promise<SignedEntry> {
         const sig = await signer._signTypedData(domain, types, this)
         const signedBy = await signer.getAddress()
         const signature = {
