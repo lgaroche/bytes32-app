@@ -18,7 +18,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 import { Grommet } from 'grommet';
 
 const { chains, provider } = configureChains(
-  [chain.localhost],
+  [chain.localhost, chain.goerli],
   [
     publicProvider()
   ]

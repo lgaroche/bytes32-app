@@ -2,6 +2,7 @@ import { Box, Button } from "grommet";
 import { Article, Refresh } from "grommet-icons";
 import { useRouter } from "next/router";
 import React, { BaseSyntheticEvent, useCallback } from "react";
+import { useSigner } from "wagmi";
 
 interface ToolbarProps {
     refresh: () => void
@@ -10,6 +11,7 @@ interface ToolbarProps {
 const Toolbar = ({ refresh }: ToolbarProps) => {
 
     const router = useRouter()
+    const { data: signer } = useSigner()
 
     const onWriteClick = useCallback((e: BaseSyntheticEvent) => {
         e.preventDefault()
@@ -27,6 +29,7 @@ const Toolbar = ({ refresh }: ToolbarProps) => {
                 label="Write"
                 icon={<Article />}
                 onClick={onWriteClick}
+                disabled={!signer}
             />
             <Button
                 icon={<Refresh />}

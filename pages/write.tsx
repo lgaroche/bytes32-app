@@ -24,7 +24,7 @@ const Write: NextPage = () => {
     const { address, isConnected } = useAccount()
     const { data: signer } = useSigner()
     const bytes32ContractReadHeads = {
-        addressOrName: process.env.CONTRACT_ADDRESS || "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        addressOrName: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "0x5FbDB2315678afecb367f032d93F642f64180aa3",
         contractInterface: abi,
         functionName: 'heads',
     }
