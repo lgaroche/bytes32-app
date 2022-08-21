@@ -16,7 +16,7 @@ const Write: NextPage = () => {
     const router = useRouter()
     const [text, setText] = useState<string>("")
     const [progress, setProgress] = useState<number>(0)
-    const [relayerSigner, setRelayerSigner] = useState<string>("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")
+    const [relayerSigner, setRelayerSigner] = useState<string>("0x9Fd8431229552cEe771E07D5D562D11b71C21d49")
     const closeProgress = useCallback(() => {
         setProgress(0)
     }, [setProgress])
@@ -24,7 +24,7 @@ const Write: NextPage = () => {
     const { address, isConnected } = useAccount()
     const { data: signer } = useSigner()
     const bytes32ContractReadHeads = {
-        addressOrName: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        addressOrName: process.env.CONTRACT_ADDRESS || "0x5FbDB2315678afecb367f032d93F642f64180aa3",
         contractInterface: abi,
         functionName: 'heads',
     }
