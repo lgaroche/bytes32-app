@@ -1,4 +1,4 @@
-import { Button, Spinner } from "grommet";
+import { Spinner } from "grommet";
 import React, { useCallback, useEffect, useState } from "react";
 import Entry from "./Entry";
 import { SolrEntry } from "../pages/api/solr";

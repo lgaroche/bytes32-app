@@ -1,4 +1,3 @@
-import { ContainerTargetContext } from 'grommet'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { verify } from '../../bytes32'
 
@@ -17,7 +16,7 @@ export default function handler(
     res: NextApiResponse<RelayResponse | ErrorResponse>
 ) {
     if (req.method === "GET") {
-        fetch("http://localhost:8000/signer").then(async r => {
+        fetch(`${process.env.RELAYER_URI}/signer`).then(async r => {
             if (r.status !== 200) {
                 res.status(500).json({ error: new Error("failed to get relay signer") })
                 return
@@ -31,7 +30,7 @@ export default function handler(
     try {
         const signed = verify({ content, meta, ref }, req.body.signature)
 
-        fetch("http://localhost:8000/publish", {
+        fetch(`${process.env.RELAYER_URI}/publish`, {
             method: "POST",
             "headers": { "Content-Type": "application/json" },
             body: JSON.stringify(req.body)

@@ -15,7 +15,7 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<SolrEntry>
 ) {
-  fetch("http://localhost:8983/solr/bytes32_local/select?q=*%3A*&rows=10&sort=block.time%20desc&start=0")
+  fetch(`${process.env.SOLR_URI}/select?q=*%3A*&rows=10&sort=block.time%20desc&start=0`)
     .then(r => r.json())
     .then(r => {
       res.status(200).json(r["response"]["docs"])
