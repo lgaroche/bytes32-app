@@ -5,7 +5,7 @@ export default function handler(
     res: NextApiResponse<void>
 ) {
     const { signer, delegate, signature } = req.body
-    fetch(`${process.env.NEXT_PUBLIC_RELAYER_URI}/delegate`, {
+    fetch(`${process.env.RELAYER_URI}/delegate`, {
         method: "POST",
         "headers": { "Content-Type": "application/json" },
         body: JSON.stringify({ signer, delegate, signature })

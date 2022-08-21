@@ -18,14 +18,14 @@ import '@rainbow-me/rainbowkit/styles.css';
 import { Grommet } from 'grommet';
 
 const { chains, provider } = configureChains(
-  [chain.localhost, chain.goerli],
+  [chain.goerli, chain.localhost],
   [
     publicProvider()
   ]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'My RainbowKit App',
+  appName: 'Bytes32',
   chains
 });
 
