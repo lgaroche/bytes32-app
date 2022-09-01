@@ -11,16 +11,15 @@ export type SolrEntry = {
   "_version_": number
 }
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<SolrEntry>
 ) {
-  fetch(`${process.env.SOLR_URI}/select?q=*%3A*&rows=10&sort=block.time%20desc&start=0`)
-    .then(r => r.json())
-    .then(r => {
-      res.status(200).json(r["response"]["docs"])
-    }).catch(e => {
-      res.status(500).json(e)
-    })
-
+  try {
+    const r = await fetch(`${process.env.SOLR_URI}/select?q=*%3A*&rows=10&sort=block.time%20desc&start=0`)
+    const { response } = await r.json()
+    res.status(200).json(response["docs"])
+  } catch (e: any) {
+    res.status(500).json(e)
+  }
 }

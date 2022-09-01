@@ -11,35 +11,32 @@ interface ErrorResponse {
     error: unknown
 }
 
-export default function handler(
+export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<RelayResponse | ErrorResponse>
 ) {
     if (req.method === "GET") {
-        fetch(`${process.env.RELAYER_URI}/signer`).then(async r => {
-            if (r.status !== 200) {
-                res.status(500).json({ error: new Error("failed to get relay signer") })
-                return
-            }
-            const { signer } = await r.json()
-            res.status(200).json({ signer })
-        })
+        const r = await fetch(`${process.env.RELAYER_URI}/signer`)
+        if (r.status !== 200) {
+            res.status(500).json({ error: new Error("failed to get relay signer") })
+            return
+        }
+        const { signer } = await r.json()
+        res.status(200).json({ signer })
         return
     }
     const { content, meta, ref } = req.body
     try {
         const signed = verify({ content, meta, ref }, req.body.signature)
 
-        fetch(`${process.env.RELAYER_URI}/publish`, {
+        const r = await fetch(`${process.env.RELAYER_URI}/publish`, {
             method: "POST",
             "headers": { "Content-Type": "application/json" },
             body: JSON.stringify(req.body)
         })
-            .then(r => r.json())
-            .then(r => res.status(200).json(r))
+        res.status(200).json(await r.json())
     } catch (e: unknown) {
         console.log(e)
         res.status(403).json({ error: e })
     }
-
 }
