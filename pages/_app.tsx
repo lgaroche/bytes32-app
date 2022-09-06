@@ -2,9 +2,10 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 
 import {
-  getDefaultWallets,
   RainbowKitProvider,
-  darkTheme
+  darkTheme,
+  connectorsForWallets,
+  wallet
 } from '@rainbow-me/rainbowkit';
 import {
   chain,
@@ -16,6 +17,8 @@ import { publicProvider } from 'wagmi/providers/public';
 
 import '@rainbow-me/rainbowkit/styles.css';
 import { Grommet } from 'grommet';
+import { magic } from '../components/MagicConnector';
+
 
 const { chains, provider } = configureChains(
   [chain.goerli, chain.localhost],
@@ -24,10 +27,21 @@ const { chains, provider } = configureChains(
   ]
 );
 
-const { connectors } = getDefaultWallets({
-  appName: 'Bytes32',
-  chains
-});
+const connectors = connectorsForWallets([
+  {
+    groupName: "Apps & extensions",
+    wallets: [
+      wallet.rainbow({ chains }),
+      wallet.metaMask({ chains })
+    ]
+  },
+  {
+    groupName: "Mail or Google",
+    wallets: [
+      magic({ chains })
+    ]
+  }
+])
 
 const wagmiClient = createClient({
   autoConnect: true,

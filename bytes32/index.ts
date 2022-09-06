@@ -6,6 +6,10 @@ const domain = {
     version: "1"
 }
 const types = {
+    EIP712Domain: [
+        { name: "name", type: "string" },
+        { name: "version", type: "string" }
+    ],
     Link: [
         { name: "/", type: "string" }
     ],
@@ -70,17 +74,29 @@ class SignableEntry implements PartialEntry {
 
     // TODO: better typing when ethers has a stable signTypedData API
     public async sign(signer: any): Promise<SignedEntry> {
-        const sig = await signer._signTypedData(domain, types, this)
-        const signedBy = await signer.getAddress()
+        const from = await signer.getAddress()
+        const typedData = {
+            domain,
+            types,
+            primaryType: "Entry",
+            message: this
+        }
+        let sig: string
+        try {
+            sig = await signer.provider.send("eth_signTypedData_v4", [from, typedData])
+        } catch (e: any) {
+            console.error(e)
+            sig = await signer.provider.send("eth_signTypedData_v4", [from, JSON.stringify(typedData)])
+        }
         const signature = {
-            format: "eip721-bytes32-v1",
+            format: "eip712-bytes32-v1",
             schema: new IPLDLink("bafyreidsag4nrh3jf6qt634gnxu25eryxoonbamlggjes7a7pmkghu2gqa/"),
             sig
         }
         return {
             ...this,
             signature,
-            signer: signedBy,
+            signer: from,
         }
 
     }

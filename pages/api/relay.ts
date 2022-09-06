@@ -27,7 +27,7 @@ export default async function handler(
     }
     const { content, meta, ref } = req.body
     try {
-        const signed = verify({ content, meta, ref }, req.body.signature)
+        //const signed = verify({ content, meta, ref }, req.body.signature)
 
         const r = await fetch(`${process.env.RELAYER_URI}/publish`, {
             method: "POST",
