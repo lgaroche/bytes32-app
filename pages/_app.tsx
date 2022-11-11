@@ -1,38 +1,31 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css"
+import type { AppProps } from "next/app"
 
 import {
   getDefaultWallets,
   RainbowKitProvider,
-  darkTheme
-} from '@rainbow-me/rainbowkit';
-import {
-  chain,
-  configureChains,
-  createClient,
-  WagmiConfig,
-} from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public';
+  darkTheme,
+} from "@rainbow-me/rainbowkit"
+import { chain, configureChains, createClient, WagmiConfig } from "wagmi"
+import { publicProvider } from "wagmi/providers/public"
 
-import '@rainbow-me/rainbowkit/styles.css';
-import { Grommet } from 'grommet';
+import "@rainbow-me/rainbowkit/styles.css"
+import { Grommet } from "grommet"
 
 const { chains, provider } = configureChains(
   [chain.goerli, chain.localhost],
-  [
-    publicProvider()
-  ]
-);
+  [publicProvider()]
+)
 
 const { connectors } = getDefaultWallets({
-  appName: 'Bytes32',
-  chains
-});
+  appName: "Bytes32",
+  chains,
+})
 
 const wagmiClient = createClient({
   autoConnect: true,
   connectors,
-  provider
+  provider,
 })
 
 function MyApp({ Component, pageProps }: AppProps) {

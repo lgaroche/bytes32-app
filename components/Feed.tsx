@@ -1,8 +1,8 @@
-import { Spinner } from "grommet";
-import React, { useCallback, useEffect, useState } from "react";
-import Entry from "./Entry";
-import { SolrEntry } from "../pages/api/solr";
-import Toolbar from "./Toolbar";
+import { Spinner } from "grommet"
+import React, { useCallback, useEffect, useState } from "react"
+import Entry from "./Entry"
+import { SolrEntry } from "../pages/api/solr"
+import Toolbar from "./Toolbar"
 
 const Feed = () => {
   const [entries, setEntries] = useState<SolrEntry[]>([])
@@ -12,43 +12,37 @@ const Feed = () => {
   useEffect(() => {
     setLoading(true)
     fetch("/api/solr")
-      .then(async r => {
+      .then(async (r) => {
         if (r.status !== 200) {
           throw new Error("bad response")
         }
         setEntries(await r.json())
         setLoading(false)
       })
-      .catch(e => {
+      .catch((e) => {
         console.error(e)
       })
   }, [refresh])
 
   const doRefresh = useCallback(() => {
-    setRefresh(r => !r)
+    setRefresh((r) => !r)
   }, [])
 
   return (
     <>
       <Toolbar refresh={doRefresh} />
-      {
-        entries ? entries.map(entry => (
+      {entries ? (
+        entries.map((entry) => (
           <Entry
             key={entry.id}
             date={new Date(entry["block.time"])}
             author={entry.signer}
             content={entry["content.text"]}
           />
-        )) :
-          <>
-            {
-              loading ?
-                <Spinner />
-                :
-                <React.Fragment />
-            }
-          </>
-      }
+        ))
+      ) : (
+        <>{loading ? <Spinner /> : <React.Fragment />}</>
+      )}
     </>
   )
 }
